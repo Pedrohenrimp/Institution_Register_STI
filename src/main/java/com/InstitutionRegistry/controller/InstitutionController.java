@@ -48,7 +48,7 @@ public class InstitutionController {
     public ResponseEntity<?> delete(@PathVariable Long id){
         verifyIfStudentExists(id);
         institutionDAO.deleteById(id);
-        return new ResponseEntity<>("Deletado", HttpStatus.OK);
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 
     @PutMapping
