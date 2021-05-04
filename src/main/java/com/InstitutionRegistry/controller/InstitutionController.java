@@ -9,9 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Controller
 @RequestMapping("institution")
@@ -24,7 +27,8 @@ public class InstitutionController {
     }
 
     @GetMapping
-    public String home(){
+    public String home(Model model){
+        model.addAttribute("institutions", StreamSupport.stream(institutionDAO.findAll().spliterator(),false).collect(Collectors.toList()));
         return "home";
     }
 
@@ -35,7 +39,7 @@ public class InstitutionController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> save(@Valid @RequestBody Institution institution){
+    public ResponseEntity<?> save(@Valid @RequestBody Institution institution) {
         return new ResponseEntity<>(institutionDAO.save(institution), HttpStatus.OK);
     }
 
@@ -56,7 +60,7 @@ public class InstitutionController {
     }
 
     private void verifyIfStudentExists (Long id){
-        if(!institutionDAO.findById(id).isPresent()){
+        if(institutionDAO.findById(id).isEmpty()){
             throw new ResourceNotFoundException("Student Not Found");
         }
     }

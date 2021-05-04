@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome to the Home Page</title>
-    <link th:href ="@{/webjars/bootstrap/css/bootstrap.min.css}"rel="stylesheet"/>
-    <link th:href ="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"rel="stylesheet"/>
-</head>
-<body>
-<h1>
-    To the home page
-</h1>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Welcome to the Home Page</title>
+        <link th:href ="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href ="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Acronym</th>
+                <th scope="col">UORG</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="institution: ${institutions}">
+                <td th:text="${institution.id}">-</td>
+                <td th:text="${institution.name}">-</td>
+                <td th:text="${institution.acro}">-</td>
+                <td th:text="${institution.uorg}">-</td>
+            </tr>
+            </tbody>
+        </table>
+    </body>
 </html>
