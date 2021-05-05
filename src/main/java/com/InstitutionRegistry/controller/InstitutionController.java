@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
@@ -35,6 +36,13 @@ public class InstitutionController {
     @GetMapping(path = "/list")
     public ResponseEntity<?> listAll(Pageable pageable){
         return new ResponseEntity<>(institutionDAO.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/search")
+    public ModelAndView search(){
+        ModelAndView modelAndView = new ModelAndView("search");
+        modelAndView.addObject("institution", institutionDAO.findAll());
+        return modelAndView;
     }
 
     @PostMapping
