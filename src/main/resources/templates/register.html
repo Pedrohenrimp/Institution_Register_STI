@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to the Home Page</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+</head>
+<body>
+  <form class="form-inline" method="POST" th:object="${institution}" th:action="@{/institution/registerInstitution}" style="margin: 20px 0">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Name" th:field="*{name}"/>
+      <input type="text" class="form-control" placeholder="Acronym" th:field="*{acro}"/>
+      <input type="text" class="form-control" placeholder="Uorg (Optional)" th:field="*{uorg}"/>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    <div>
+        <a th:href="@{home}">Back to Home Page</a>
+    </div>
+  </form>
+</body>
+</html>

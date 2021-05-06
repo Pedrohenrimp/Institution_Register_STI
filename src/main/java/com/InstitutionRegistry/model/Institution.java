@@ -2,6 +2,7 @@ package com.InstitutionRegistry.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,11 +19,11 @@ public class Institution implements Serializable {
     private Long id;
 
     @NotEmpty
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
     @NotEmpty
-    @NotNull
+    @Column(nullable = false)
     private String acro;
 
     private String uorg;
