@@ -7,11 +7,19 @@
 
         <title>Busca por Instituição</title>
 
-        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
-        <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     </head>
     <body>
         <div class="panel panel-default" style="margin: 10px">
+            <form class="form-inline" method="GET" th:action="@{/institution}"  style="margin: 20px 0">
+                <div class="form-group">
+                    <input type="text" class="form-control"
+                           placeholder="Nome"
+                           name="string"/>
+                    <button type="submit"
+                            class="btn btn-primary">Buscar</button>
+                </div>
+            </form>
             <div class="panel-heading">
                 <h1 class="panel-title">Instituições</h1>
             </div>

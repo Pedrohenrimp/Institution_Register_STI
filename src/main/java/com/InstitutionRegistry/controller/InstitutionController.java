@@ -27,21 +27,26 @@ public class InstitutionController {
         this.institutionDAO = institutionDAO;
     }
 
-    @GetMapping
-    public String home(Model model){
-        model.addAttribute("institutions", StreamSupport.stream(institutionDAO.findAll().spliterator(),false).collect(Collectors.toList()));
-        return "home";
-    }
+//    @GetMapping
+//    public String home(Model model){
+//        model.addAttribute("institutions", StreamSupport.stream(institutionDAO.findAll().spliterator(),false).collect(Collectors.toList()));
+//        return "home";
+//    }
 
     @GetMapping(path = "/list")
     public ResponseEntity<?> listAll(Pageable pageable){
         return new ResponseEntity<>(institutionDAO.findAll(pageable), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/search")
-    public ModelAndView search(){
+    @GetMapping
+    public ModelAndView findByName(@RequestParam(name = "string", required = false, defaultValue = "") String string) {
         ModelAndView modelAndView = new ModelAndView("search");
-        modelAndView.addObject("institution", institutionDAO.findAll());
+        if(string == null || string.isBlank()) {
+            modelAndView.addObject("institutions", institutionDAO.findAll());
+        }
+        else {
+            modelAndView.addObject("institutions", institutionDAO.findByNameLike("%"+string+"%"));
+        }
         return modelAndView;
     }
 
