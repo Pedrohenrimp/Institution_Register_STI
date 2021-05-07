@@ -65,12 +65,13 @@ public class InstitutionController {
         return "redirect:register";
     }
 
-    @DeleteMapping(path = "/{id}")
+    @PostMapping(path = "/delete")
     @Transactional
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ModelAndView delete(@RequestParam("id") Long id){
+        ModelAndView mv = new ModelAndView("redirect:/institution");
         verifyIfStudentExists(id);
         institutionDAO.deleteById(id);
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        return mv;
     }
 
     @PutMapping

@@ -12,7 +12,7 @@
       <input type="text" class="form-control" placeholder="Name" th:field="*{name}"/>
       <input type="text" class="form-control" placeholder="Acronym" th:field="*{acro}"/>
       <input type="text" class="form-control" placeholder="Uorg (Optional)" th:field="*{uorg}"/>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" onclick="return alert('Institution registered');">Submit</button>
     </div>
     <div style="margin-top: 10px">
         <a class="btn btn-primary" th:href="@{/institution}">Back to Home Page</a>

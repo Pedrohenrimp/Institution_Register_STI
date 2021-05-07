@@ -42,6 +42,12 @@
                             <td th:text="${institution.name}">-</td>
                             <td th:text="${institution.acro}">-</td>
                             <td th:text="${institution.uorg}">-</td>
+                            <td>
+                                <form action="#" method="POST" th:action="@{institution/delete}">
+                                    <input type="hidden" name="id" th:value="${institution.id}" />
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Confirm?');">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
