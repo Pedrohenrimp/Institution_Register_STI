@@ -4,13 +4,12 @@ import com.InstitutionRegistry.error.ResourceNotFoundException;
 import com.InstitutionRegistry.model.Institution;
 import com.InstitutionRegistry.repository.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.WebDataBinder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,11 +21,6 @@ import java.util.stream.StreamSupport;
 @RequestMapping("institution")
 public class InstitutionController {
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-    }
-
     private final InstitutionRepository institutionDAO;
     @Autowired
     public InstitutionController(InstitutionRepository institutionDAO) {
@@ -34,24 +28,9 @@ public class InstitutionController {
     }
 
     @GetMapping
-    public String redirectToHome(){
-        return "redirect:institution/home";
-    }
-
-    @GetMapping(path = "/home")
-    public ModelAndView home(){
-        ModelAndView mv = new ModelAndView("home");
-        mv.addObject("institutions", StreamSupport.stream(institutionDAO.findAll().spliterator(),false).collect(Collectors.toList()));
-
-        return mv;
-    }
-
-    @GetMapping(path = "/register")
-    public ModelAndView register(){
-        ModelAndView mv = new ModelAndView("register");
-        mv.addObject("institution", new Institution());
-
-        return mv;
+    public String home(Model model){
+        model.addAttribute("institutions", StreamSupport.stream(institutionDAO.findAll().spliterator(),false).collect(Collectors.toList()));
+        return "home";
     }
 
     @GetMapping(path = "/list")
@@ -59,11 +38,10 @@ public class InstitutionController {
         return new ResponseEntity<>(institutionDAO.findAll(pageable), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/registerInstitution")
+    @PostMapping
     @Transactional
-    public String save(@Valid Institution institution) {
-        institutionDAO.save(institution);
-        return "redirect:register";
+    public ResponseEntity<?> save(@Valid @RequestBody Institution institution) {
+        return new ResponseEntity<>(institutionDAO.save(institution), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -71,7 +49,7 @@ public class InstitutionController {
     public ResponseEntity<?> delete(@PathVariable Long id){
         verifyIfStudentExists(id);
         institutionDAO.deleteById(id);
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Deletado", HttpStatus.OK);
     }
 
     @PutMapping
