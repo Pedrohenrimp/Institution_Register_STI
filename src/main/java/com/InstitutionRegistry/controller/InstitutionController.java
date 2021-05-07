@@ -48,7 +48,7 @@ public class InstitutionController {
 
     @GetMapping
     public ModelAndView findByName(@RequestParam(name = "string", required = false, defaultValue = "") String string) {
-        ModelAndView modelAndView = new ModelAndView("search");
+        ModelAndView modelAndView = new ModelAndView("home");
         if(string == null || string.isBlank()) {
             modelAndView.addObject("institutions", institutionDAO.findAll());
         }
