@@ -74,12 +74,21 @@ public class InstitutionController {
         return mv;
     }
 
-    @PutMapping
+    @GetMapping(path = "/update")
+    public ModelAndView update(@RequestParam("id") Long id){
+        ModelAndView mv = new ModelAndView("update");
+        verifyIfStudentExists(id);
+        mv.addObject("institution", institutionDAO.findById(id));
+        return mv;
+    }
+
+    @PostMapping(path = "/saveUpdates")
     @Transactional
-    public ResponseEntity<?> update(@RequestBody Institution institution){
+    public ModelAndView updatePost(@Valid Institution institution){
+        ModelAndView mv = new ModelAndView("redirect:/institution");
         verifyIfStudentExists(institution.getId());
         institutionDAO.save(institution);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return mv;
     }
 
     private void verifyIfStudentExists (Long id){
