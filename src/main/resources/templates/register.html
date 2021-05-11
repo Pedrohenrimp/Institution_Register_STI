@@ -7,12 +7,36 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-  <form class="form-inline" method="POST" th:object="${institution}" th:action="@{/institution/registerInstitution}" style="margin: 20px 0">
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Name" th:field="*{name}"/>
-      <input type="text" class="form-control" placeholder="Acronym" th:field="*{acro}"/>
-      <input type="text" class="form-control" placeholder="Uorg (Optional)" th:field="*{uorg}"/>
-      <button type="submit" class="btn btn-primary" onclick="return alert('Institution registered');">Submit</button>
+  <form class="form-inline" method="POST" th:object="${institution}" th:action="@{/institution/register}" style="margin: 20px 0">
+    <div class="form-group panel panel-default" style="margin: 10px; padding: 10px">
+        <table>
+            <tr>
+                <td>Name: </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Name" th:field="*{name}"/>
+                </td>
+                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+            </tr>
+            <tr>
+                <td>Acronym: </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Acronym" th:field="*{acro}"/>
+                </td>
+                <td th:if="${#fields.hasErrors('acro')}" th:errors="*{acro}">Acronym Error</td>
+            </tr>
+            <tr>
+                <td>Uorg (optional): </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Uorg (Optional)" th:field="*{uorg}"/>
+                </td>
+                <td th:if="${#fields.hasErrors('uorg')}" th:errors="*{uorg}">Uorg Error</td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" class="btn btn-primary" onclick="return alert('Institution registered');">Submit</button>
+                </td>
+            </tr>
+        </table>
     </div>
     <div style="margin-top: 10px">
         <a class="btn btn-primary" th:href="@{/institution}">Back to Home Page</a>
