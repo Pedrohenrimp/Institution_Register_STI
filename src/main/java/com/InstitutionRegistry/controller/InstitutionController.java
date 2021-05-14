@@ -1,8 +1,10 @@
 package com.InstitutionRegistry.controller;
 
+import com.InstitutionRegistry.error.EmptyFieldException;
 import com.InstitutionRegistry.error.ResourceNotFoundException;
 import com.InstitutionRegistry.model.Institution;
 import com.InstitutionRegistry.repository.InstitutionRepository;
+import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -30,7 +32,7 @@ public class InstitutionController {
 
     @GetMapping
     public ModelAndView findByName(@RequestParam(name = "string", required = false, defaultValue = "") String string) {
-        ModelAndView modelAndView = new ModelAndView("register");
+        ModelAndView modelAndView = new ModelAndView("home");
         if(string == null || string.isBlank()) {
             modelAndView.addObject("institutions", institutionDAO.findAll());
         }
@@ -51,11 +53,20 @@ public class InstitutionController {
 
     @PostMapping(path = "/register")
     @Transactional
-    public String save(@Valid Institution institution, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            return "register";
+    public String save(@Valid Institution institution) {
+        try{
+            institutionDAO.save(institution);
+
+        } catch (Exception e){
+            if(institution.getAcro() == null || institution.getName() == null
+                    || institution.getName().isBlank() || institution.getAcro().isBlank()) {
+                String r = "Required fields are empty:";
+                if(institution.getName() == null || institution.getName().isBlank()) r += " Name";
+                if(institution.getAcro() == null || institution.getAcro().isBlank()) r += " Acronym";
+                throw new EmptyFieldException(r, "/institution/register");
+            }
+            throw e;
         }
-        institutionDAO.save(institution);
         return "redirect:/institution/register";
     }
 
@@ -76,7 +87,7 @@ public class InstitutionController {
         return mv;
     }
 
-    @PostMapping(path = "/saveUpdates")
+    @PostMapping(path = "/update")
     @Transactional
     public ModelAndView updatePost(@Valid Institution institution){
         ModelAndView mv = new ModelAndView("redirect:/institution");
