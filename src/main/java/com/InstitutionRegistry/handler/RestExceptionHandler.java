@@ -1,7 +1,6 @@
 package com.InstitutionRegistry.handler;
 
 import com.InstitutionRegistry.error.EmptyFieldException;
-import org.hibernate.PropertyValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
