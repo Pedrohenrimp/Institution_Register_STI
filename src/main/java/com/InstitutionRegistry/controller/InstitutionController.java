@@ -56,7 +56,6 @@ public class InstitutionController {
     public String save(@Valid Institution institution) {
         try{
             institutionDAO.save(institution);
-
         } catch (Exception e){
             if(institution.getAcro() == null || institution.getName() == null
                     || institution.getName().isBlank() || institution.getAcro().isBlank()) {
@@ -89,7 +88,7 @@ public class InstitutionController {
 
     @PostMapping(path = "/update")
     @Transactional
-    public ModelAndView updatePost(@Valid Institution institution){
+    public ModelAndView updatePost(@Valid Institution institution, BindingResult result){
         ModelAndView mv = new ModelAndView("redirect:/institution");
         verifyIfStudentExists(institution.getId());
         institutionDAO.save(institution);

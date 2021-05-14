@@ -18,4 +18,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         mv.addObject("error", ex);
         return mv;
     }
+
+    @ExceptionHandler(value = Exception.class)
+    protected ModelAndView handleException(RuntimeException ex, WebRequest request){
+        ModelAndView mv = new ModelAndView("redirect:/institution", HttpStatus.BAD_REQUEST);
+        System.out.println(ex);
+        return mv;
+    }
 }
